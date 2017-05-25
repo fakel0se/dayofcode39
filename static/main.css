@@ -1,0 +1,47 @@
+			#canvas {	
+				width: 100%;
+				height: 100%;
+			}
+			html {
+				height: 100%;
+				width: 100%;
+				overflow:  hidden;
+			}
+			body {
+				/////background-image: url(/static/palace.jpg);
+				background-color: rgba(132, 175, 201, 0.5);
+				height: 100%;
+				width: 100%;
+				margin: 0;
+				padding 0;
+			}
+			div {
+				position: fixed;
+				border-radius: 50%;
+			}			
+
+			.circle.opacityT {
+				animation: mymove 2s;
+				animation-fill-mode: forwards;
+		    }
+ 
+			@keyframes mymove {
+					0%   {opacity: 1;
+					visibility: visible;}
+					20%   {opacity: 0.8;
+					visibility: visible;}
+					40%   {opacity: 0.6;
+					visibility: visible;}					
+					60%   {opacity: 0.4;
+					visibility: visible;}					
+					80%   {opacity: 0.2;
+					visibility: visible;}
+					100% {opacity: 0;
+					width: 1px;
+					height: 1px;
+					visibility: hidden;}
+			}
+			
+			.cursor {
+				position: fixed;
+			}
