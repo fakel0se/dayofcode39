@@ -58,22 +58,26 @@ function CreateXO(evt) { //Рисуем крестики-нолики
 			stage.update();
 			figure = 0;
 			gridOX[line][column] = 0;
-		} else 
-			console.log('Figure already exists!');
+		} else {
+				console.log('Figure already exists!');
+				alert('Figure already exists!');
+		}
 	} else {
 			if (gridOX[line][column] == -1) {
-			console.log('Create Circle in X = ' + Math.floor(evt.stageX) + ' Y = ' + Math.floor(evt.stageY));
+				console.log('Create Circle in X = ' + Math.floor(evt.stageX) + ' Y = ' + Math.floor(evt.stageY));
 
-			let circle = new createjs.Sprite(spriteSheet, "circle");
-			circle.regX = 75;
-			circle.regY = 75;
-			circle.x = X;
-			circle.y = Y;		
-			stage.addChild(circle);
-			stage.update();
-			figure = 1;
-			gridOX[line][column] = 1;
-		} else 
-			console.log('Figure already exists!');
+				let circle = new createjs.Sprite(spriteSheet, "circle");
+				circle.regX = 75;
+				circle.regY = 75;
+				circle.x = X;
+				circle.y = Y;		
+				stage.addChild(circle);
+				stage.update();
+				figure = 1;
+				gridOX[line][column] = 1;
+		} else {
+				console.log('Figure already exists!');
+				alert('Figure already exists!');
+		}
 	}
 };
