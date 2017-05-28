@@ -2,7 +2,6 @@ var socket = io();
 
 var p = "px";
 
-//var canvas = document.getElementById("canvas");
 var stage = new createjs.Stage("canvas");
 
 var gridOX = [
@@ -11,7 +10,7 @@ var gridOX = [
 	[-1, -1, -1]
 ];
 
-var figure = 0;
+var figure;
 
 var data = {
 	images: ["/static/xo.png"],
@@ -70,41 +69,166 @@ function CreateXO(evt) { //Рисуем крестики-нолики
 };
 
 function checkVictory() {
+	
+	for (let i = 0; i < 3; i++)
+		{
+			y = i * 300 + 150;
+			x = i * 300 + 150;
+			if (gridOX[i][0] == 0 && gridOX[i][1] == 0 && gridOX[i][2] == 0) 
+			{				
+				DrawLine(150, y, 750, y);
+				stage.update();
+				BlueWin();				
+			}
+			if (gridOX[i][0] == 1 && gridOX[i][1] == 1 && gridOX[i][2] == 1) 
+			{
+				DrawLine(150, y, 750, y);
+				stage.update();
+				RedWin();				
+			}
+			if (gridOX[0][i] == 1 && gridOX[1][i] == 1 && gridOX[2][i] == 1) 
+			{
+				DrawLine(x, 150, x, 750);
+				stage.update();
+				RedWin();				
+			}
+			if (gridOX[0][i] == 0 && gridOX[1][i] == 0 && gridOX[2][i] == 0) 
+			{
+				DrawLine(x, 150, x, 750);
+				stage.update();
+				BlueWin();				
+			}
+		}
+	
+	if (gridOX[0][0] == 0 && gridOX[1][1] == 0 && gridOX[2][2] == 0)
+	{
+		DrawLine(150, 150, 750, 750);
+		stage.update();
+		BlueWin();
+	}
+	if (gridOX[0][2] == 0 && gridOX[1][1] == 0 && gridOX[2][0] == 0)
+	{
+		DrawLine(750, 150, 150, 750);
+		stage.update();
+		BlueWin();
+	}
+	
+	if (gridOX[0][0] == 1 && gridOX[1][1] == 1 && gridOX[2][2] == 1)
+	{
+		DrawLine(150, 150, 750, 750);
+		stage.update();
+		RedWin();
+	}
+	if (gridOX[0][2] == 1 && gridOX[1][1] == 1 && gridOX[2][0] == 1)
+	{
+		DrawLine(750, 150, 150, 750);
+		stage.update();
+		RedWin();
+	}
+		
+		
+		
+		
+	
 	// Желательно оптимизировать
 	// If Circles Wins
-	if (gridOX[0][0] == 0 && gridOX[1][1] == 0 && gridOX[2][2] == 0)
+/*	if (gridOX[0][0] == 0 && gridOX[1][1] == 0 && gridOX[2][2] == 0)
+	{
+		DrawLine(150, 150, 750, 750);
+		stage.update();
 		BlueWin();
+	}
 	if (gridOX[0][2] == 0 && gridOX[1][1] == 0 && gridOX[2][0] == 0)
+	{
+		DrawLine(750, 150, 150, 750);
+		stage.update();
 		BlueWin();
+	}
 	if (gridOX[0][0] == 0 && gridOX[0][1] == 0 && gridOX[0][2] == 0)
-		BlueWin();
+	{
+		DrawLine(150, 150, 750, 150);
+		stage.update();
+		BlueWin();	
+	}
 	if (gridOX[1][0] == 0 && gridOX[1][1] == 0 && gridOX[1][2] == 0)
+	{
+		DrawLine(150, 450, 750, 450);
+		stage.update();
 		BlueWin();
+	}
 	if (gridOX[2][0] == 0 && gridOX[2][1] == 0 && gridOX[2][2] == 0)
+	{
+		DrawLine(150, 750, 750, 750);
+		stage.update();
 		BlueWin();
+	}
 	if (gridOX[0][0] == 0 && gridOX[1][0] == 0 && gridOX[2][0] == 0)
+	{
+		DrawLine(150, 150, 150, 750);
+		stage.update();
 		BlueWin();
+	}
 	if (gridOX[0][1] == 0 && gridOX[1][1] == 0 && gridOX[2][1] == 0)
+	{
+		DrawLine(450, 150, 450, 750);
+		stage.update();
 		BlueWin();
+	}
 	if (gridOX[0][2] == 0 && gridOX[1][2] == 0 && gridOX[2][2] == 0)
+	{
+		DrawLine(750, 150, 750, 750);
+		stage.update();
 		BlueWin();
+	}
 	// If Crosses Wins
 	if (gridOX[0][0] == 1 && gridOX[1][1] == 1 && gridOX[2][2] == 1)
+	{
+		DrawLine(150, 150, 750, 750);
+		stage.update();
 		RedWin();
-	if (gridOX[0][2] == 1 && gridOX[1][1] == 1 && gridOX[2][0] == 1)
+	}
+	if (gridOX[0][2] == 0 && gridOX[1][1] == 0 && gridOX[2][0] == 1)
+	{
+		DrawLine(750, 150, 150, 750);
+		stage.update();
 		RedWin();
-	if (gridOX[0][0] == 1 && gridOX[0][1] == 1 && gridOX[0][2] == 1)
+	}
+	if (gridOX[0][0] == 0 && gridOX[0][1] == 0 && gridOX[0][2] == 1)
+	{
+		DrawLine(150, 150, 750, 150);
+		stage.update();
 		RedWin();
-	if (gridOX[1][0] == 1 && gridOX[1][1] == 1 && gridOX[1][2] == 1)
+	}
+	if (gridOX[1][0] == 0 && gridOX[1][1] == 0 && gridOX[1][2] == 1)
+	{
+		DrawLine(150, 450, 750, 450);
+		stage.update();
 		RedWin();
-	if (gridOX[2][0] == 1 && gridOX[2][1] == 1 && gridOX[2][2] == 1)
+	}
+	if (gridOX[2][0] == 0 && gridOX[2][1] == 0 && gridOX[2][2] == 1)
+	{
+		DrawLine(150, 750, 750, 750);
+		stage.update();
 		RedWin();
-	if (gridOX[0][0] == 1 && gridOX[1][0] == 1 && gridOX[2][0] == 1)
+	}
+	if (gridOX[0][0] == 0 && gridOX[1][0] == 0 && gridOX[2][0] == 1)
+	{
+		DrawLine(150, 150, 150, 750);
+		stage.update();
 		RedWin();
-	if (gridOX[0][1] == 1 && gridOX[1][1] == 1 && gridOX[2][1] == 1)
+	}
+	if (gridOX[0][1] == 0 && gridOX[1][1] == 0 && gridOX[2][1] == 1)
+	{
+		DrawLine(450, 150, 450, 750);
+		stage.update();
 		RedWin();
-	if (gridOX[0][2] == 1 && gridOX[1][2] == 1 && gridOX[2][2] == 1)
+	}
+	if (gridOX[0][2] == 0 && gridOX[1][2] == 0 && gridOX[2][2] == 0)
+	{
+		DrawLine(750, 150, 750, 750);
+		stage.update();
 		RedWin();
+	} */
 };
 
 function BlueWin() {
@@ -116,6 +240,12 @@ function RedWin() {
 	alert('Crosses Won!!');
 	Restart();
 	
+}
+
+function DrawLine(x1, y1, x2, y2){
+	let line = new createjs.Shape();
+	line.graphics.beginStroke("red").setStrokeStyle(5, 'round').moveTo(x1,y1).lineTo(x2,y2);
+	stage.addChild(line);
 }
 function Restart() {
 	// Не получилось сослаться на начало кода, чтобы не повторять все то, что было уже вначале
