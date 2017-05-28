@@ -40,7 +40,7 @@ function CreateXO(evt) { //Рисуем крестики-нолики
 		console.log('Create ' + figure + ' in X = ' + Math.floor(evt.stageX) + ' Y = ' + Math.floor(evt.stageY));
 		let fig = new createjs.Sprite(spriteSheet, figure);
 		fig.regX = 75;
-		fig.regY = 75;
+		fig.regY = 73;
 		fig.x = X;
 		fig.y = Y;		
 		stage.addChild(fig);
