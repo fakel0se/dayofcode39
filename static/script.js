@@ -13,7 +13,7 @@ socket.on("connected", function(roomID, fig) {
 	document.title = "Room: " + roomID;
 	document.body.innerHTML = "<canvas id='canvas' width='900px' height='900px'></canvas>";
 	document.body.innerHTML += "<canvas id='score' width='120px' height='100px'></canvas>";
-	
+
 	reSize();
 	
 	stage = new createjs.Stage("canvas");
