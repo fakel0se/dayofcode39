@@ -14,11 +14,8 @@ socket.on("connected", function(roomID, fig) {
 	document.body.innerHTML = "<canvas id='canvas' width='900px' height='900px'></canvas>";
 	document.body.innerHTML += "<canvas id='score' width='120px' height='100px'></canvas>";
 	
-<<<<<<< HEAD
-=======
 	reSize();
 	
->>>>>>> sanya/master
 	stage = new createjs.Stage("canvas");
 	score = new createjs.Stage("score");
 	
