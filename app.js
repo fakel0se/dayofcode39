@@ -70,11 +70,11 @@ function onConnection(socket) {
 		
 		socket.join(roomID, function() {
 			console.log("client: ", socket.id," connected to ", roomID);
-			rooms[roomID].playerCount++;
-			rooms[roomID].rightPlayer = socket.id;
 			if (rooms[roomID].step == 0) 
 				rooms[roomID].step = socket.id;
 			socket.emit("connected", roomID, "circle");
+			rooms[roomID].rightPlayer = socket.id;
+			rooms[roomID].playerCount++;
 		});			
 		
 	});
