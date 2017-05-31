@@ -228,6 +228,24 @@ function checkVictory(socket, roomID, line, column) {
 		}		
 	}
 	
+	if (winHor >= 5)
+	{
+		rooms[roomID].winLine[0] = lineWin1[0];
+		rooms[roomID].winLine[1] = lineWin1[1];
+		rooms[roomID].winLine[2] = lineWin1[2];
+		rooms[roomID].winLine[3] = lineWin1[3];
+		return true;
+	}
+	
+	if (winVert >= 5)
+	{
+		rooms[roomID].winLine[0] = lineWin2[0];
+		rooms[roomID].winLine[1] = lineWin2[1];
+		rooms[roomID].winLine[2] = lineWin2[2];
+		rooms[roomID].winLine[3] = lineWin2[3];
+		return true;
+	}
+	
 	//check diagonals winning line
 	for (let i = 1; i < 6; i++)
 	{	
@@ -294,26 +312,6 @@ function checkVictory(socket, roomID, line, column) {
 			}		
 			//console.log("winDtoTR = ", winDtoTR);		
 		}		
-	}
-	
-	
-	
-	if (winHor >= 5)
-	{
-		rooms[roomID].winLine[0] = lineWin1[0];
-		rooms[roomID].winLine[1] = lineWin1[1];
-		rooms[roomID].winLine[2] = lineWin1[2];
-		rooms[roomID].winLine[3] = lineWin1[3];
-		return true;
-	}
-	
-	if (winVert >= 5)
-	{
-		rooms[roomID].winLine[0] = lineWin2[0];
-		rooms[roomID].winLine[1] = lineWin2[1];
-		rooms[roomID].winLine[2] = lineWin2[2];
-		rooms[roomID].winLine[3] = lineWin2[3];
-		return true;
 	}
 	
 	if (winDtoBR >= 5)
