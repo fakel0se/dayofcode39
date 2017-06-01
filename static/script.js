@@ -6,7 +6,7 @@ var gridOX;
 var myFigure, opponentFigure;
 var data;
 var spriteSheet;
-var myScore, enemyScore;
+var score, enemyScore;
 var fieldSize;
 
 socket.on("connected", function(roomID, fig, size) {
