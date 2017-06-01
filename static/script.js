@@ -221,11 +221,11 @@ function Restart() {
 }
 
 function reSize() {
-	/*let width = window.innerWidth;
+	let width = window.innerWidth;
 	let height = window.innerHeight;
 	let min = width > height ? height : width;
 	let canvas = document.getElementById('canvas');
 	canvas.style.width = min + 'px';
 	canvas.style.height = min + 'px';
-	canvas.style.left = (window.innerWidth - min) / 2 + 'px';*/
+	canvas.style.left = (window.innerWidth - min) / 2 + 'px';
 }
