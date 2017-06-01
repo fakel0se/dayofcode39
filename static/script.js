@@ -1,12 +1,12 @@
 "use strict";
 var socket = io();
 
-var stage;
+var stage, score;
 var gridOX;
 var myFigure, opponentFigure;
 var data;
 var spriteSheet;
-var score, enemyScore;
+var myScore, enemyScore;
 var fieldSize;
 
 socket.on("connected", function(roomID, fig, size) {
