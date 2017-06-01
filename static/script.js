@@ -210,11 +210,12 @@ function Restart() {
 	stage.removeAllChildren();
 	var grid = new createjs.Shape();
 	var lenPx = fieldSize * 100;
-	for (let i = 100; i < lenPx; i += 100)
+	/*for (let i = 100; i < lenPx; i += 100)
 	{
 		grid.graphics.beginFill("black").drawRect(0, i - 1, lenPx, 2);
 		grid.graphics.beginFill("black").drawRect(i - 1, 0, 2, lenPx);
-	}
+	}*/
+	grid.graphics.beginStroke("#FFBF00").setStrokeStyle(10, 'round').moveTo(0,0).lineTo(fieldSize * 100,fieldSize * 100);
 	stage.addChild(grid);
 	stage.update();
 	// Неплохо было бы реализовать подсчет очков и вывод их на экран
