@@ -225,6 +225,6 @@ function reSize() {
 	let height = window.innerHeight;
 	let min = width > height ? height : width;
 	let canvas = document.getElementById('canvas');
-	canvas.style.width = min - 2 + 'px';
-	canvas.style.height = min - 2 + 'px';	canvas.style.left = (window.innerWidth - min) / 2 + 'px';
+	canvas.style.width = min - 4 + 'px';
+	canvas.style.height = min - 4 + 'px';	canvas.style.left = (window.innerWidth - min) / 2 + 'px';
 }
