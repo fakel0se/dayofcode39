@@ -45,6 +45,8 @@ function onConnection(socket) {
 				rooms[roomID].gridOX[i][j] = -1;
 		}
 		
+		console.log(rooms[roomID].sizeField.length);
+		
 		socket.join(roomID, function() {
 			console.log("connect: ", socket.id," to ", roomID);
 			socket.emit("connected", roomID, "cross", rooms[roomID].sizeField);
@@ -66,7 +68,7 @@ function onConnection(socket) {
 		}
 		
 		socket.join(roomID, function() {
-			console.log("client: ", socket.id," connected to ", roomID);
+			console.log("connect: ", socket.id," to ", roomID);
 			if (rooms[roomID].step == 0) 
 				rooms[roomID].step = socket.id;
 			socket.emit("connected", roomID, "circle", rooms[roomID].sizeField);
@@ -79,9 +81,8 @@ function onConnection(socket) {
 	socket.on("step", function(line, column) {
 		//console.log("left ", rooms[roomID].leftPlayer, ", right ", rooms[roomID].rightPlayer);
 		//console.log(rooms[roomID]);
-		console.log("Line: ", line, "Col: ", column);
 		if (!rooms[roomID]) return;
-		console.log("step ", rooms[roomID].step, ", player ", socket.id, " to: " ,rooms[roomID].gridOX[line][column]);
+		console.log("step ", rooms[roomID].step, ", player ", socket.id, " to: " ,rooms[roomID].gridOX[line][column], " players:" + rooms[roomID].playerCount);
 		if ((rooms[roomID].gridOX[line][column] == -1) && (rooms[roomID].step == socket.id) && (rooms[roomID].playerCount == 2)) {
 			rooms[roomID].gridOX[line][column] = socket.id;
 			rooms[roomID].count++;
@@ -136,7 +137,7 @@ function onConnection(socket) {
 };
 
 function checkVictory(socket, roomID, line, column) {
-	
+
 	let leftFlag = true;
 	let rightFlag = true;
 	let topFlag = true;
@@ -155,7 +156,7 @@ function checkVictory(socket, roomID, line, column) {
 	let lineWin1 = [column, line, column, line];
 	let lineWin2 = [column, line, column, line];
 	
-	
+	//console.log(rooms[roomID].sizeField);
 	//check horizontal and vertical winning line
 	for (let i = 1; i < rooms[roomID].winCnt; i++)
 	{	
@@ -191,10 +192,11 @@ function checkVictory(socket, roomID, line, column) {
 			//console.log("winVert = ", winVert);		
 		}
 		
-		if (column + i > 9)
+		if (column + i > rooms[roomID].sizeField - 1)
 			rightFlag = false;
 		if (rightFlag) 
 		{
+			console.log("right: ", column + i, " asd: ", rooms[roomID].gridOX[line][column + i]);
 			if (rooms[roomID].gridOX[line][column + i] == socket.id)
 			{
 				lineWin1[2] = column + i;
@@ -207,7 +209,7 @@ function checkVictory(socket, roomID, line, column) {
 			//console.log("winHor = ", winHor);			
 		}
 		
-		if (line + i > 9)
+		if (line + i > rooms[roomID].sizeField - 1)
 			botFlag = false;
 		if (botFlag) 
 		{
@@ -241,12 +243,14 @@ function checkVictory(socket, roomID, line, column) {
 		rooms[roomID].winLine[3] = lineWin2[3];
 		return true;
 	}
-	console.log("length winHor: ", winHor, " but need ", rooms[roomID].winCnt);
-	console.log("length winVert: ", winVert, " but need ", rooms[roomID].winCnt);
+
+	//console.log("length winHor: ", winHor, " but need ", rooms[roomID].winCnt);
+	//console.log("length winVert: ", winVert, " but need ", rooms[roomID].winCnt);
+	
 	//check diagonals winning line
 	for (let i = 1; i < rooms[roomID].winCnt; i++)
 	{	
-		if (column - i < 0 || line - i < 0) 
+		if (column - i < 0 || line - i < 0)
 			ltFlag = false;
 		if (ltFlag) 
 		{
@@ -262,14 +266,15 @@ function checkVictory(socket, roomID, line, column) {
 			//console.log("winDtoBR = ", winDtoBR);		
 		}
 		
-		if (line - i < 0 || column + i > 9)
+		if (line + i > rooms[roomID].sizeField - 1 || column - i < 0)
 			lbFlag = false;
+		//console.log("leftbot: ", line + i, "Col: ", column - i, "winDtoTR = ", winDtoTR, " lbFlag = ", lbFlag);
 		if (lbFlag) 
 		{
-			if (rooms[roomID].gridOX[line - i][column + i] == socket.id)
-			{				
-				lineWin2[0] = column + i;
-				lineWin2[1] = line - i;
+			if (rooms[roomID].gridOX[line + i][column - i] == socket.id)
+			{
+				lineWin2[0] = column - i;
+				lineWin2[1] = line + i;
 				winDtoTR++;
 			} else 
 			{
@@ -278,7 +283,7 @@ function checkVictory(socket, roomID, line, column) {
 			//console.log("winDtoTR = ", winDtoTR);		
 		}
 		
-		if (column + i > 9 || line + i > 9)
+		if (column + i > rooms[roomID].sizeField - 1 || line + i > rooms[roomID].sizeField - 1)
 			rbFlag = false;
 		if (rbFlag) 
 		{
@@ -294,14 +299,15 @@ function checkVictory(socket, roomID, line, column) {
 			//console.log("winDtoBR = ", winDtoBR);			
 		}
 		
-		if (line + i > 9 || column - i < 0)
+		if (line - i < 0 || column + i > rooms[roomID].sizeField - 1)
 			rtFlag = false;
+		//console.log("righttop: ", line - i, "Col: ", column + i, "winDtoTR = ", winDtoTR, " rtFlag = ", rtFlag);
 		if (rtFlag) 
 		{
-			if (rooms[roomID].gridOX[line + i][column - i] == socket.id)
+			if (rooms[roomID].gridOX[line - i][column + i] == socket.id)
 			{
-				lineWin2[2] = column - i;
-				lineWin2[3] = line + i;
+				lineWin2[2] = column + i;
+				lineWin2[3] = line - i;
 				winDtoTR++;
 			} else 
 			{
@@ -310,6 +316,9 @@ function checkVictory(socket, roomID, line, column) {
 			//console.log("winDtoTR = ", winDtoTR);		
 		}		
 	}
+	
+	//console.log("length winDtoBR: ", winDtoBR, " but need ", rooms[roomID].winCnt);
+	//console.log("length winDtoTR: ", winDtoTR, " but need ", rooms[roomID].winCnt);
 	
 	if (winDtoBR >= rooms[roomID].winCnt)
 	{
@@ -329,33 +338,6 @@ function checkVictory(socket, roomID, line, column) {
 		return true;
 	}
 	
-	
-	/*for (let i = 1; i < 3; i++)
-	{
-		//y = i * 300 + 150;
-		//x = i * 300 + 150;
-		if (rooms[roomID].gridOX[i][0] == socket.id && rooms[roomID].gridOX[i][1] == socket.id && rooms[roomID].gridOX[i][2] == socket.id) 
-		{					
-			updateRoom(rooms[roomID]);
-			return i + 1;
-		}
-		if (rooms[roomID].gridOX[0][i] == socket.id && rooms[roomID].gridOX[1][i] == socket.id && rooms[roomID].gridOX[2][i] == socket.id) 
-		{
-			updateRoom(rooms[roomID]);
-			return i + 4;			
-		}
-	}
-	
-	if (rooms[roomID].gridOX[0][0] == socket.id && rooms[roomID].gridOX[1][1] == socket.id && rooms[roomID].gridOX[2][2] == socket.id)
-	{
-		updateRoom(rooms[roomID]);
-		return 7;
-	}
-	if (rooms[roomID].gridOX[0][2] == socket.id && rooms[roomID].gridOX[1][1] == socket.id &&rooms[roomID].gridOX[2][0] == socket.id)
-	{
-		updateRoom(rooms[roomID]);
-		return 8;
-	}	*/
 }
 
 function draw(roomID) {

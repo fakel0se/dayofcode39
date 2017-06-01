@@ -138,7 +138,7 @@ function CreateXO(evt) {
 	if (column == fieldSize) column = fieldSize - 1;
 	if (line == fieldSize) line = fieldSize - 1;
 	
-	console.log('pressed: ', column, " - ", line);
+	//console.log('pressed: ', column, " - ", line);
 	socket.emit("step", line, column);
 	
 };
@@ -180,7 +180,6 @@ socket.on("win", function(line) {
 
 socket.on("lose", function(line) {
 	DrawLine(line[0] * 100 + 50, line[1] * 100 + 50, line[2] * 100 + 50, line[3] * 100 + 50)	
-	
 	alert("You lost");
 	Restart();
 });
@@ -200,7 +199,7 @@ socket.on("change score", function (mySc, enSc) {
 	
 function DrawLine(x1, y1, x2, y2){
 	let line = new createjs.Shape();
-	line.graphics.beginStroke("red").setStrokeStyle(5, 'round').moveTo(x1,y1).lineTo(x2,y2);
+	line.graphics.beginStroke("#FFBF00").setStrokeStyle(10, 'round').moveTo(x1,y1).lineTo(x2,y2);
 	stage.addChild(line);
 	stage.update();
 }
